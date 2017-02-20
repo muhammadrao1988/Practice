@@ -5,42 +5,42 @@ package com.example.muhammad.practice.modal;
  */
 public class Company {
     private String mId;
-    private String mCompanyName;
-    private String mCompanyEmail;
-    private String mUserType;
+    private String mName;
+    private String mEmail;
+    private String mType;
 
-    public Company(String mId,String mCompanyName,String mCompanyEmail,String mUserType){
+    public Company(String mId, String mName, String mEmail, String mType){
         this.mId = mId;
-        this.mCompanyName = mCompanyName;
-        this.mCompanyEmail = mCompanyEmail;
-        this.mUserType = mUserType;
+        this.mName = mName;
+        this.mEmail = mEmail;
+        this.mType = mType;
     }
 
     public Company(){
 
     }
-    public String getmUserType() {
-        return mUserType;
+    public String getmType() {
+        return mType;
     }
 
-    public void setmUserType(String mUserType) {
-        this.mUserType = mUserType;
+    public void setmType(String mType) {
+        this.mType = mType;
     }
 
-    public String getmCompanyName() {
-        return mCompanyName;
+    public String getmName() {
+        return mName;
     }
 
-    public void setmCompanyName(String mCompanyName) {
-        this.mCompanyName = mCompanyName;
+    public void setmName(String mName) {
+        this.mName = mName;
     }
 
-    public String getmCompanyEmail() {
-        return mCompanyEmail;
+    public String getmEmail() {
+        return mEmail;
     }
 
-    public void setmCompanyEmail(String mCompanyEmail) {
-        this.mCompanyEmail = mCompanyEmail;
+    public void setmEmail(String mEmail) {
+        this.mEmail = mEmail;
     }
 
     public String getmId() {

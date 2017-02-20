@@ -8,6 +8,9 @@ public class Student {
     private String mName;
     private String mEmail;
     private String mGender;
+
+
+
     private String mType;
 
     public Student(String mId, String mName, String mEmail, String mGender,String mType ) {
@@ -53,4 +56,8 @@ public class Student {
     public void setmGender(String mGender) {
         this.mGender = mGender;
     }
+
+    public String getmType() {return mType;}
+
+    public void setmType(String mType) {this.mType = mType;}
 }
