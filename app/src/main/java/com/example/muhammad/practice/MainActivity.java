@@ -3,6 +3,7 @@ package com.example.muhammad.practice;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
             MainFragmentAdapter fa = new MainFragmentAdapter(getSupportFragmentManager(), MainActivity.this, totalTab, this.mUserType, this.mId);
             binding.MainActivityPager.setAdapter(fa);
             binding.MainActivityTab.setupWithViewPager(binding.MainActivityPager);
+            final boolean previous_tab_exists = getIntent().hasExtra("selected_tab");
+            
+            if(previous_tab_exists) {
+                binding.MainActivityPager.setCurrentItem(getIntent().getIntExtra("selected_tab",0), true);
+            }
+
+
+
 
 
 

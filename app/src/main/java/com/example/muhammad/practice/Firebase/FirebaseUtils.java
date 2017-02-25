@@ -12,7 +12,9 @@ import com.example.muhammad.practice.Login;
 import com.example.muhammad.practice.MainActivity;
 import com.example.muhammad.practice.SessionManager.SessionManager;
 import com.example.muhammad.practice.Utils;
+import com.example.muhammad.practice.databinding.JobEditorBinding;
 import com.example.muhammad.practice.modal.Company;
+import com.example.muhammad.practice.modal.Jobs;
 import com.example.muhammad.practice.modal.Student;
 import com.example.muhammad.practice.modal.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Muhammad on 2/14/2017.
@@ -188,7 +193,91 @@ public class FirebaseUtils {
             }
         });
     }
+    //add new job
+    public void firebaseJobInsert(final String companyId,final String title,final String desc, Context context){
+        final Activity activity = (Activity) context;
+        progressDialog = progressDialog.show(activity,"","Please wait..",true);
 
+        FirebaseDatabase.getInstance().getReference().child("Users").child(companyId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String companyName = dataSnapshot.child("mName").getValue().toString();
+
+                FirebaseDatabase.getInstance().getReference().child("Jobs").push().setValue(new Jobs(companyId,title,desc,1,companyName,companyId+"_1"));
+                if(progressDialog != null && progressDialog.isShowing())
+                {
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+    //add new job
+    public void firebaseJobUpdate(final String jobId,final String title,final String desc, Context context){
+        final Activity activity = (Activity) context;
+        progressDialog = progressDialog.show(activity,"","Please wait..",true);
+        Map<String, Object> jobUpdates = new HashMap<String, Object>();
+        jobUpdates.put("jobTitle", title);
+        jobUpdates.put("jobDescription", desc);
+        //FirebaseDatabase.getInstance().getReference().child("Jobs").child(jobId).setValue(jobUpdates);//will remove all rows except above defined
+        FirebaseDatabase.getInstance().getReference().child("Jobs").child(jobId).updateChildren(jobUpdates);
+        if(progressDialog != null && progressDialog.isShowing())
+        {
+            progressDialog.dismiss();
+        }
+
+
+
+
+    }
+    //delete job
+    public void firebaseJobDelete(final String jobId,Context context){
+        final Activity activity = (Activity) context;
+        progressDialog = progressDialog.show(activity,"","Please wait..",true);
+
+        FirebaseDatabase.getInstance().getReference().child("Jobs").child(jobId).removeValue();
+        if(progressDialog != null && progressDialog.isShowing())
+        {
+            progressDialog.dismiss();
+        }
+    }
+    //fetch single job complete node
+    public void firebaseFetchSingleJob(final String jobId, final JobEditorBinding binding, final String action){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("Jobs").child(jobId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Jobs job = dataSnapshot.getValue(Jobs.class);
+                job.setJobId(jobId);
+                Log.i("JobDesc:",job.toString()+action);
+                if(action.equals("view")){
+                    binding.jobTitleView.setText(job.getJobTitle());
+                    binding.jobDescView.setText(job.getJobDescription());
+                    binding.jobCompanyView.setText(job.getJobCompanyName());
+
+
+                }else{
+                    binding.jobTitle.setText(job.getJobTitle());
+                    binding.jobDescription.setText(job.getJobDescription());
+                }
+                binding.companId.setText(job.getJobCompanyId());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void applyJob(){
+
+    }
 
     //firebase logout
     public static void fireBaseLogOut(){

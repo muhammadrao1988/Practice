@@ -43,6 +43,12 @@ public class Users {
         this.mEmail = mEmail;
     }
 
+    @Override
+    public String toString() {
+        return "userId:"+getmId()+" email:"+getmEmail()+" name:"+getmName()+" type:"+getmType();
+
+    }
+
     public String getmName() {
         return mName;
     }
